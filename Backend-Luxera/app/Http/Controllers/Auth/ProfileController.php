@@ -21,8 +21,8 @@ class ProfileController extends Controller
         $user = $request->user();
 
         $request->validate([
-            'first_name' => 'sometimes|string|max:255',
-            'last_name' => 'sometimes|string|max:255',
+            'first_name' => 'sometimes|string|alpha|max:32',
+            'last_name' => 'sometimes|string|alpha|max:32',
             // 'email' => 'sometimes|string|email|max:255|unique:users,email,' . $user->id,
             'phone' => 'sometimes|numeric|regex:/^\+?\d{6,20}$/',
             'location' => 'sometimes|string|max:64',
