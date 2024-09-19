@@ -54,7 +54,7 @@ Let us be your partner in creating truly unique and personalized designs that ex
 
 5. Set up your database and migrate the tables:
     ```bash
-    php artisan migrate
+    php artisan migrate:fresh --seed
     ```
 
 6. Link storage app:
