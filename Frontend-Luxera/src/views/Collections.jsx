@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
-import { Search, Loader2 } from "lucide-react";
+import { Search, Loader2, X } from "lucide-react";
 import Title from "@/title";
 import {
   ApiCategories,
@@ -117,7 +117,7 @@ export default function Collections() {
     const matchesSearch =
       deal.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       deal.category.name.toLowerCase().includes(searchTerm.toLowerCase());
-  
+
     return matchesCategory && matchesSearch;
   });
 
@@ -204,6 +204,15 @@ export default function Collections() {
     (category) => category.slug === activeCategory
   );
 
+  const clearSearch = (e) => {
+    e.preventDefault();
+    // Lets clean only search term params
+    const newParams = new URLSearchParams(searchParams);
+    newParams.delete("search");
+    setSearchParams(newParams);
+    setSearchTerm("");
+  };
+
   return (
     <>
       <Title title="Collections" />
@@ -226,6 +235,13 @@ export default function Collections() {
                   value={searchTerm}
                   onChange={handleSearch}
                 />
+                {searchTerm && (
+                  <X 
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4"
+                  onClick={(e) => clearSearch(e)}
+                  />
+                )}
+
               </div>
               <Tabs
                 defaultValue={activeCategory}
@@ -306,7 +322,7 @@ export default function Collections() {
                 {searchTerm && (
                   <p className="text-muted-foreground">No results found for your search.</p>
                 )}
-                
+
                 {!dealsLoading && categories.length > 0 && !categoryExists && (
                   <p className="text-muted-foreground">Category not found.</p>
                 )}
