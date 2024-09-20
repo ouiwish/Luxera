@@ -28,7 +28,7 @@ export default function Collections() {
   const { isAuthenticated, loading } = useAuth();
   const [categories, setCategories] = useState([]);
   const [fashionDeals, setDeals] = useState([]);
-  const [activeCategory, setActiveCategory] = useState("");
+  const [activeCategory, setActiveCategory] = useState("All");
   const [searchTerm, setSearchTerm] = useState("");
   const [dealsLoading, setDealsLoading] = useState(true);
   const [selectedDeal, setSelectedDeal] = useState(null);
@@ -63,7 +63,7 @@ export default function Collections() {
     ) {
       setActiveCategory(categoryParam);
     } else {
-      setActiveCategory("");
+      setActiveCategory("All");
     }
 
     if (searchParam) {
@@ -96,6 +96,8 @@ export default function Collections() {
         setDeals(response.data);
       } catch (error) {
         console.error("Error fetching collections:", error);
+      } finally {
+        setDealsLoading(false);
       }
     };
 
@@ -103,24 +105,28 @@ export default function Collections() {
     fetchCollections();
   }, []);
 
-  useEffect(() => {
-    const timer = setTimeout(() => setDealsLoading(false), 600);
-    return () => clearTimeout(timer);
-  }, []);
+  // Set loading state for testing loading state
+  // useEffect(() => {
+  //   const timer = setTimeout(() => setDealsLoading(false), 600);
+  //   return () => clearTimeout(timer);
+  // }, []);
 
-  const filteredDeals = fashionDeals.filter(
-    (deal) =>
-      (!activeCategory || deal.category.slug === activeCategory) &&
-      (deal.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        deal.category.name.toLowerCase().includes(searchTerm.toLowerCase()))
-  );
+  const filteredDeals = fashionDeals.filter((deal) => {
+    const matchesCategory =
+      activeCategory === "All" || deal.category.slug === activeCategory;
+    const matchesSearch =
+      deal.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      deal.category.name.toLowerCase().includes(searchTerm.toLowerCase());
+  
+    return matchesCategory && matchesSearch;
+  });
 
   const handleCategoryChange = (categoryId) => {
     setDealsLoading(true);
     setActiveCategory(categoryId);
     const newParams = new URLSearchParams(searchParams);
 
-    if (categoryId === "") {
+    if (categoryId === "All") {
       newParams.delete("category");
     } else {
       newParams.set("category", categoryId);
@@ -228,8 +234,8 @@ export default function Collections() {
                 <TabsList className="flex grid grid-cols-2 md:grid-cols-5 w-full gap-2">
                   <TabsTrigger
                     value=""
-                    data-state={activeCategory === "" ? "active" : ""}
-                    onClick={() => handleCategoryChange("")}
+                    data-state={activeCategory === "All" ? "active" : ""}
+                    onClick={() => handleCategoryChange("All")}
                     className="px-3 py-1.5 text-sm whitespace-nowrap flex-grow sm:flex-grow-0"
                   >
                     All Collections
@@ -298,9 +304,10 @@ export default function Collections() {
             {!dealsLoading && filteredDeals.length === 0 && (
               <div className="flex flex-col justify-center items-center w-full h-64">
                 {searchTerm && (
-                  <p className="text-muted-foreground">No results found.</p>
+                  <p className="text-muted-foreground">No results found for your search.</p>
                 )}
-                {!categoryExists && (
+                
+                {!dealsLoading && categories.length > 0 && !categoryExists && (
                   <p className="text-muted-foreground">Category not found.</p>
                 )}
               </div>
@@ -345,18 +352,18 @@ export default function Collections() {
                       Cancel
                     </Button>
                     <Button
-                    disabled={isSigned}
-                    onClick={handleSignDeal}
-                  >
-                    {isSigned ? (
-                      <>
-                        <Loader2 className="h-5 w-5 mr-2 animate-spin" />
-                        Sign a Deal
-                      </>
-                    ) : (
-                      "Sign a Deal"
-                    )}
-                  </Button>
+                      disabled={isSigned}
+                      onClick={handleSignDeal}
+                    >
+                      {isSigned ? (
+                        <>
+                          <Loader2 className="h-5 w-5 mr-2 animate-spin" />
+                          Sign a Deal
+                        </>
+                      ) : (
+                        "Sign a Deal"
+                      )}
+                    </Button>
                   </DialogFooter>
                 </DialogContent>
               </Dialog>
