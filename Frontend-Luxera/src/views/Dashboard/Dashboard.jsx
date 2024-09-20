@@ -93,6 +93,11 @@ const Dashboard = () => {
     }
   };
 
+  /**
+   * Fetches the user's review from the server and updates the state accordingly.
+   * If there is an error, logs the error to the console and sets the loading state to false.
+   * @returns {Promise<void>}
+   */
   const fetchUserReview = async () => {
     try {
       const response = await axiosInstance.get("/reviews/get");
@@ -111,6 +116,14 @@ const Dashboard = () => {
     }
   };
 
+  /**
+   * Loads the PayPal JavaScript SDK script if it doesn't exist yet.
+   * 
+   * This function is necessary because the PayPal button is rendered on the client-side
+   * and the script tag is not present in the server-side rendered HTML.
+   * 
+   * @returns {void}
+   */ 
   const loadPayPalScript = () => {
     if (!document.querySelector('script[src*="paypal.com/sdk/js"]')) {
       const script = document.createElement("script");
@@ -121,6 +134,13 @@ const Dashboard = () => {
     }
   };
 
+  /**
+   * Handles the image click event by creating an input element to select
+   * an image file. Once an image is selected, it is displayed in the
+   * avatar dialog and the selected file is stored in the state.
+   * @param {React.MouseEvent} e The event object.
+   * @returns {void}
+   */
   const onImageClick = (e) => {
     e.preventDefault();
     const input = document.createElement("input");
@@ -138,6 +158,13 @@ const Dashboard = () => {
     };
   };
 
+  /**
+   * Handles the save avatar button click event by sending a request to the server
+   * to update the user's profile image. If the request is successful, it updates the
+   * state with the new image URL and closes the avatar dialog. If there is an error,
+   * it displays an error toast message and closes the avatar dialog.
+   * @returns {Promise<void>}
+   */
   const handleSaveAvatar = async () => {
     setIsUploadingAvatar(true);
     if (!selectedFile) return;
@@ -192,8 +219,14 @@ const Dashboard = () => {
     setSelectedDeal(null);
   };
 
+  /**
+   * Handles the unsign deal button click event by sending a request to the server
+   * to unsign the deal for the authenticated user. If the request is successful, it
+   * updates the state with the new list of signed deals and closes the delete dialog.
+   * If there is an error, it displays an error toast message and closes the delete dialog.
+   * @returns {Promise<void>}
+   */
   const handleUnSign = async () => {
-    // handlingunsing button
     setDealsLoading(true);
     setIsDeleteDialogOpen(true);
     try {
@@ -248,8 +281,8 @@ const Dashboard = () => {
                   <div className="relative inline-block">
                     <Avatar
                       className={`mx-auto w-36 h-36 ${isDarkMode === "dark"
-                          ? "box-border border-2 border-gray-700"
-                          : "box-border border-2 border-gray-400"
+                        ? "box-border border-2 border-gray-700"
+                        : "box-border border-2 border-gray-400"
                         }`}
                     >
                       <AvatarImage
