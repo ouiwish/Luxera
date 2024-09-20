@@ -237,7 +237,7 @@ export default function Collections() {
                 />
                 {searchTerm && (
                   <X 
-                  className="absolute right-2 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4"
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4 cursor-pointer"
                   onClick={(e) => clearSearch(e)}
                   />
                 )}
