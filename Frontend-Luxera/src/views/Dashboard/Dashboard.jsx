@@ -114,9 +114,8 @@ const Dashboard = () => {
   const loadPayPalScript = () => {
     if (!document.querySelector('script[src*="paypal.com/sdk/js"]')) {
       const script = document.createElement("script");
-      script.src = `https://www.paypal.com/sdk/js?client-id=${
-        import.meta.env.VITE_PAYPAL_CLIENT_ID
-      }&currency=USD`;
+      script.src = `https://www.paypal.com/sdk/js?client-id=${import.meta.env.VITE_PAYPAL_CLIENT_ID
+        }&currency=USD`;
       script.async = true;
       document.body.appendChild(script);
     }
@@ -197,7 +196,7 @@ const Dashboard = () => {
     setDealsLoading(true);
     setIsDeleteDialogOpen(true);
     try {
-      const response = await ApiUnSignDeal({ deal_id: selectedDeal.id });
+      const response = await ApiUnSignDeal({ deal_id: selectedDeal.deal_id });
       closeDialog();
       if (response.status === 200) {
         const response = await ApiSignedDeals();
@@ -235,11 +234,10 @@ const Dashboard = () => {
         <main className="flex-1">
           <section
             className={`relative overflow-hidden w-full py-12 md:py-24 lg:py-32 shadow-lg 
-            ${
-              isDarkMode === "dark"
+            ${isDarkMode === "dark"
                 ? "border-b-2 border-gray-900"
                 : "border-b-2 border-gray-300"
-            }`}
+              }`}
           >
             <Ripple className="absolute inset-0 w-full h-full object-cover z-0" />
             <div className="relative z-10 container px-4 md:px-6">
@@ -248,11 +246,10 @@ const Dashboard = () => {
                   {/* Avatar Upload Section */}
                   <div className="relative inline-block">
                     <Avatar
-                      className={`mx-auto w-36 h-36 ${
-                        isDarkMode === "dark"
+                      className={`mx-auto w-36 h-36 ${isDarkMode === "dark"
                           ? "box-border border-2 border-gray-700"
                           : "box-border border-2 border-gray-400"
-                      }`}
+                        }`}
                     >
                       <AvatarImage
                         alt="User Avatar"
