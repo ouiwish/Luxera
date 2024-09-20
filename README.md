@@ -147,8 +147,4 @@ For any inquiries or support, contact us at support@luxera.com.
 - **[Widad Moumkine](https://www.linkedin.com/in/widad-moumkine)** - Digital Content Creator
 - **[Hajar Moumkine](https://www.linkedin.com/in/hajar-moumkine)** - Visual Communication Specialist
 
-## Contributing
-
-We welcome contributions! Feel free to submit a pull request or open an issue if you find bugs or have suggestions.
-
 ---

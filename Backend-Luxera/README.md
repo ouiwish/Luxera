@@ -54,9 +54,3 @@ This is the back-end API for Luxera's custom design services, built using Larave
 - **admin** - For admin-only routes.
 
 ---
-
-## Contributing
-
-If you want to contribute to this back-end, feel free to submit a pull request or open an issue.
-
----

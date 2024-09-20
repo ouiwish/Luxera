@@ -111,6 +111,13 @@ const Profile = () => {
     try {
       const response = await UpdatePassword(passwordData);
       if (response.status === 200) {
+        // Lets Clean inputs
+        setPasswordData({
+          current_password: "",
+          password: "",
+          password_confirmation: "",
+        });
+        
         toast({
           title: "Password updated successfully",
           description: "Your password has been updated successfully.",

@@ -23,10 +23,10 @@ class AuthController extends Controller
     {
         // Validate the input fields
         $request->validate([
-            'first_name' => 'required|string|max:32',
-            'last_name' => 'required|string|max:32',
+            'first_name' => 'required|string|alpha|max:32',
+            'last_name' => 'required|string|alpha|max:32',
             'email' => 'required|string|email|max:255|unique:users',
-            'phone' => 'required|string|min:6|numeric',
+            'phone' => 'sometimes|numeric|regex:/^\+?\d{6,20}$/',
             'location' => 'required|string|max:64',
             'password' => 'required|string|min:8|confirmed',
         ]);
